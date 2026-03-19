@@ -749,10 +749,10 @@ function IntroScreen({ onStart, onHome }: { onStart: () => void; onHome: () => v
       className="relative h-screen w-full overflow-hidden border border-black bg-[#ff7800]"
       style={{ fontFamily: FONT_HELVETICA, userSelect: 'none', cursor: 'default' }}
     >
-      {/* Top-left icon block (same placement/size as quiz intro) */}
+      {/* Top-right home icon (same size as quiz intro) */}
       <div
-        className="group absolute z-[3] flex items-center gap-[10px]"
-        style={{ top: '-1px', left: '-1px', cursor: 'pointer' }}
+        className="group absolute z-[3] flex flex-row-reverse items-center gap-[10px]"
+        style={{ top: '-1px', right: '-1px', left: 'auto', cursor: 'pointer' }}
         aria-label="Hem"
         onClick={onHome}
       >
@@ -775,7 +775,7 @@ function IntroScreen({ onStart, onHome }: { onStart: () => void; onHome: () => v
             display: 'inline-block',
             whiteSpace: 'nowrap',
             opacity: 0,
-            transform: 'translateX(-10px)',
+            transform: 'translateX(10px)',
             transition: 'opacity 0.2s ease, transform 0.2s ease',
             pointerEvents: 'none',
           }}
@@ -814,6 +814,7 @@ function IntroScreen({ onStart, onHome }: { onStart: () => void; onHome: () => v
           top: '8%',
           left: '39%',
           right: '2%',
+          transform: 'translateX(0.7vw)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -1490,8 +1491,8 @@ export function StatisticsSection() {
   return (
     <div className="min-h-screen bg-white" style={{ fontFamily: FONT_HELVETICA }}>
       <div
-        className="group fixed z-20 flex items-center gap-[10px]"
-        style={{ top: '-1px', left: '-1px', cursor: 'pointer' }}
+        className="group fixed z-20 flex flex-row-reverse items-center gap-[10px]"
+        style={{ top: '-1px', right: '-1px', left: 'auto', cursor: 'pointer' }}
         aria-label="Hem"
         onClick={handleGoHome}
       >
@@ -1514,7 +1515,7 @@ export function StatisticsSection() {
             display: 'inline-block',
             whiteSpace: 'nowrap',
             opacity: 0,
-            transform: 'translateX(-10px)',
+            transform: 'translateX(10px)',
             transition: 'opacity 0.2s ease, transform 0.2s ease',
             pointerEvents: 'none',
           }}

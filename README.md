@@ -1,14 +1,15 @@
-# Sveriges skyddsrum
+# Skyddsrum 4 U
 
-A React/Vite web app for Swedish civil defense shelter (skyddsrum) statistics and information. Built with React, Tailwind CSS, and Recharts.
+A React/Vite web app for Swedish civil defense shelter (skyddsrum) statistics and the "Hinner du till ett skyddsrum?" quiz. Built with React, Tailwind CSS, and Recharts.
 
 Original design: [Figma](https://www.figma.com/design/z9xnxzS0K0Zob1cAyNeYkP/Sveriges-skyddsrum-hemsida)
 
 ## Features
 
-- Homepage with intro screen
-- Statistics section with interactive charts
-- Embedded skyddsrum quiz
+- Homepage with hero and consequence sections
+- Statistics section with interactive charts (Sverige, Stockholm, Göteborg, Malmö)
+- "Hinner du till ett skyddsrum?" quiz (5 questions)
+- Deep dive into skyddsrum data and coverage over time
 
 ## Getting started
 
