@@ -1,0 +1,33 @@
+@import './fonts.css';
+@import './tailwind.css';
+@import './theme.css';
+
+:root {
+  --app-cursor: url("/skyddsrum-data/coursor.svg") 1 1;
+}
+
+body {
+  cursor: var(--app-cursor), auto;
+}
+
+html,
+body,
+body * {
+  cursor: var(--app-cursor), auto !important;
+  caret-color: transparent;
+}
+
+input,
+textarea,
+[contenteditable="true"] {
+  caret-color: #111111;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

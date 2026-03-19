@@ -1,0 +1,2373 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hinner du till ett skyddsrum?</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="nya pikto/new piktogram_4. Ålder- Default.svg">
+<link rel="preload" as="image" href="nya pikto/new piktogram_4. Ålder- Bebis.svg">
+<link rel="preload" as="image" href="nya pikto/new piktogram_4. Ålder- Barn.svg">
+<link rel="preload" as="image" href="nya pikto/new piktogram_4. Ålder- Vuxen.svg">
+<link rel="preload" as="image" href="nya pikto/new piktogram_4. Ålder- Gammal.svg">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #ffffff;
+    --white: #ffffff;
+    --blue: #000000;
+    --blue-mid: #000000;
+    --orange: #000000;
+    --line: #dddddd;
+    --muted: #777777;
+    --text: #111111;
+    --font: 'Space Mono', monospace;
+    --font-helvetica: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --app-cursor: url("nya pikto/coursor.svg") 1 1;
+  }
+
+  body {
+    background: #ffffff;
+    color: var(--text);
+    font-family: var(--font-helvetica);
+    min-height: 100vh;
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: var(--app-cursor), auto;
+  }
+
+  html, body, body * {
+    cursor: var(--app-cursor), auto !important;
+  }
+
+  .page {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  /* --- Intro / homepage --- */
+
+  .intro-frame {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    overflow: hidden;
+    background: #ff7800;
+    font-family: var(--font-helvetica);
+    user-select: none;
+    cursor: var(--app-cursor), auto;
+  }
+
+  .intro-corner-wrap {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 20;
+    cursor: var(--app-cursor), pointer;
+    pointer-events: auto;
+  }
+
+  .intro-corner-icon {
+    width: 72px;
+    height: 72px;
+    transition: transform 0.22s ease;
+    transform-origin: center;
+  }
+
+  .intro-corner-text {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #111;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid #111;
+    padding: 3px 9px;
+    display: inline-block;
+    opacity: 0;
+    white-space: nowrap;
+    transform: translateX(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+  }
+
+  .intro-corner-wrap:hover .intro-corner-icon {
+    transform: scale(1.1);
+  }
+
+  .intro-corner-wrap:hover .intro-corner-text {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .intro-title-box {
+    position: absolute;
+    top: 8%;
+    left: 39%;
+    right: 2%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 210px;
+    background: #ffffff;
+    border: 7px solid #111;
+    padding: 0 28px;
+    text-align: center;
+    z-index: 2;
+  }
+
+  .intro-title-box h1 {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 5.2vw;
+    line-height: 1.15;
+    font-weight: 500;
+    color: #000;
+    max-width: 95%;
+    margin: 0 auto;
+    text-align: left;
+    transform: translateY(10px);
+  }
+
+  .intro-silhouette {
+    position: absolute;
+    will-change: transform;
+    left: -28%;
+    bottom: -65%;
+    width: 110%;
+    height: auto;
+    z-index: 3;
+    animation: intro-slide-silhouette 0.9s cubic-bezier(0.22,1,0.36,1) forwards;
+    pointer-events: none;
+  }
+
+  .intro-arrow {
+    position: absolute;
+    will-change: transform;
+    left: 60%;
+    bottom: -40%;
+    width: 60%;
+    height: auto;
+    cursor: pointer;
+    z-index: 4;
+    animation: intro-slide-arrow 1s cubic-bezier(0.22,1,0.36,1) 0.2s both;
+  }
+
+  .intro-arrow:hover {
+    opacity: 0.75;
+  }
+
+  @keyframes intro-slide-silhouette {
+    from { transform: translateX(-60px); opacity: 0.6; }
+    to   { transform: translateX(0);     opacity: 1; }
+  }
+
+  @keyframes intro-slide-arrow {
+    from { transform: translateX(-80px); opacity: 0; }
+    to   { transform: translateX(0);     opacity: 1; }
+  }
+
+  /* ============================================================
+     QUIZ QUESTION PAGE — full viewport layout
+     All elements labelled so you can tweak each independently
+     ============================================================ */
+
+  /* The full-screen white container for every quiz question */
+  .q-page {
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    overflow: hidden;
+    cursor: default;         /* prevent I-beam cursor on non-interactive elements */
+    user-select: none;       /* prevent accidental text selection */
+  }
+
+  /* ── TOP BAR ─────────────────────────────────────────────── */
+
+  /* Outer row that holds the question number and next-arrow */
+  .q-topbar {
+    position: relative;
+    height: 8vh;        /* ← height of the top bar / number box */
+    flex-shrink: 0;
+    margin: 4vh 0 0;    /* ← gap from top — increase to move number/arrow/T-cap down */
+  }
+
+  /* Question number box — e.g. "1/5" — black square top-left */
+  .q-counter-box {
+    position: absolute;
+    left: 5.4vw;        /* ← distance from left edge of viewport */
+    top: 0; bottom: 0;
+    width: 8vh;         /* ← width of the number box (matches height) */
+    background: #111;
+    color: #fff;
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: 500;
+    font-size: 28px;    /* ← NUMBER BOX SIZE — change this single value to make "1/5" bigger/smaller */
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Next-question arrow button — placed left of the top T-cap */
+  .q-next-box {
+    position: absolute;
+    --arrow-size: 23vh;            /* ← change ONLY this to resize — position stays fixed */
+    left: calc(45% - var(--arrow-size) + 4vw); /* nudge right for visual alignment */
+    top: 50%;
+    transform: translateY(-50%);  /* keeps vertical center locked no matter the size */
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  /* Both arrow images sit on top of each other and crossfade */
+  .q-next-box img {
+    display: block;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity 0.45s ease; /* ← crossfade speed */
+  }
+
+  /* Default arrow: visible by default, fades out when activated */
+  .q-arrow-default { opacity: 1; }
+  .q-arrow-active  { opacity: 0; }
+
+  /* Activated state: swap which image is visible */
+  .q-next-box.activated .q-arrow-default { opacity: 0; }
+  .q-next-box.activated .q-arrow-active  { opacity: 1; }
+
+  .q-next-box:disabled { cursor: default; }
+  .q-next-box--hidden { visibility: hidden; pointer-events: none; }
+
+  /* Restart button — same size/position as next arrow, smooth hover crossfade */
+  .q-restart-default { opacity: 1; }
+  .q-restart-hover   { opacity: 0; }
+  .q-next-box.q-restart-btn:hover .q-restart-default { opacity: 0; }
+  .q-next-box.q-restart-btn:hover .q-restart-hover   { opacity: 1; }
+.q-next-box.q-restart-btn {
+  left: calc(45% - var(--arrow-size) + 4vw);
+  transform: translateY(-50%) scaleX(-1);
+}
+
+  /* Top-right corner bracket — ┐ shape (replaces old arrow area) */
+  .q-corner-tr {
+    position: absolute;
+    right: 5.4vw;
+    top: 0;
+    width: 45px;
+    height: 45px;
+    border-top: 1px solid #111;
+    border-right: 1px solid #111;
+  }
+
+  /* ── TOP T-INDICATOR ─────────────────────────────────────── */
+
+  /* Inverted-T (┬) — top edge aligns with the number box.
+     Crossbar at top, stem pointing downward. */
+  .q-top-tcap {
+    position: absolute;
+    top: 0;             /* ← aligns with the top of the number/arrow boxes */
+    left: 45%;          /* ← horizontal position = column split (match bottom T) */
+    transform: translateX(-50%);
+  }
+
+  /* ── CONTENT AREA ────────────────────────────────────────── */
+
+  /* Flex row: left column (question) + right column (image) */
+  .q-content {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    min-height: 0;
+  }
+
+  /* Left column — spans from the left edge to the T-cap (0 → 45%) */
+  .q-col-left {
+    width: 45%;          /* must match T-cap's "left: 45%" — do not change */
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+
+    /* ── SEARCHBAR / QUESTION TEXT PLACEMENT ───────────────────
+       These two values move the entire text+searchbar group.
+       Change ONLY these to reposition: */
+    padding-top:  15vh;  /* ← UP / DOWN  — increase to push down, decrease to push up  */
+    padding-left: 14vw;  /* ← LEFT / RIGHT — increase to push right, decrease to push left */
+
+    /* ── SEARCHBAR WIDTH ────────────────────────────────────────
+       Width = 45vw − padding-left − padding-right.
+       Keep padding-right so left+right ≈ 23vw (original size). */
+    padding-right:  9vw; /* ← decrease to widen searchbar, increase to narrow it */
+    padding-bottom: 2vh;
+  }
+
+  .q-vsep { display: none; }
+
+  /* Right column — holds the shield illustration */
+  .q-col-right {
+    flex: 1;
+    display: flex;
+    align-items: center;     /* ← SHIELD VERTICAL POSITION — "flex-start" = top, "flex-end" = bottom */
+    justify-content: center; /* ← SHIELD HORIZONTAL POSITION — "flex-start" = left, "flex-end" = right */
+    padding: 3vh 5vw;        /* ← SHIELD BREATHING ROOM — top/bottom (3vh) and left/right (5vw) margin */
+  }
+
+  /* ── QUESTION TEXT ───────────────────────────────────────── */
+
+  /* Main question heading — e.g. "VILKEN KOMMUN BOR DU I?" */
+  .q-h2 {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(16px, 1.8vw, 32px); /* ← QUESTION TEXT SIZE  — change the middle value (1.8vw) */
+    font-weight: 500;
+    text-transform: uppercase;
+    line-height: 1.2;
+    margin-bottom: 2vh;  /* ← GAP BETWEEN TITLE AND SEARCHBAR */
+    color: #111;
+  }
+
+  /* Q3 hover label under the question title */
+  .q-h2-hover {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(14px, 1.4vw, 22px);
+    font-weight: 500;
+    line-height: 1.2;
+    color: #111;
+    margin-top: 1.6vh;
+    margin-bottom: 2vh;
+    min-height: 1.2em; /* keep layout stable even when empty */
+    opacity: 0;
+    transition: opacity 0.18s ease;
+  }
+
+  .q-h2-hover.is-visible {
+    opacity: 1;
+  }
+
+  .q-boende-label-wrap {
+    position: relative;
+    min-height: 1.2em;
+    margin-top: 1.6vh;
+    margin-bottom: 2vh;
+  }
+
+  .q-boende-label-wrap .q-boende-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .q-boende-label-wrap .q-boende-label.is-visible {
+    opacity: 1;
+  }
+
+  /* Shared sticky-label pattern for Q3 and Q5 */
+  .q-sticky-label-wrap {
+    position: relative;
+    min-height: 1.2em;
+    margin-top: 1.6vh;
+    margin-bottom: 2vh;
+  }
+  .q-sticky-label-wrap .q-sticky-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .q-sticky-label-wrap .q-sticky-label.is-visible {
+    opacity: 1;
+  }
+
+  /* ── SEARCH BOX ──────────────────────────────────────────── */
+
+  /* Text input for searching/filtering the municipality list */
+  .q-search-inp {
+    width: 100%;
+    border: 1px solid #111;  /* full border — dropdown overlaps bottom by 1px */
+    padding: 0.9vh 0.7vw; /* ← SEARCHBAR HEIGHT — increase the first value (0.6vh) to make it taller */
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(9px, 0.75vw, 12px); /* ← SEARCHBAR FONT SIZE — change the middle value (0.75vw) */
+    color: #333;
+    outline: none;
+    flex-shrink: 0;
+    cursor: text;
+    user-select: text;
+  }
+
+  .q-search-inp::placeholder { color: #aaa; }
+
+  /* ── MUNICIPALITY SUGGESTIONS DROPDOWN ──────────────────── */
+
+  /* Wrapper so the dropdown can be positioned relative to the input */
+  .q-search-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 100%;        /* fills the column so it stays aligned with the heading above */
+  }
+
+  /* Dropdown that appears below the input while typing */
+  .q-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: -1px;        /* overlap input's bottom border — no double line */
+    border: 1px solid #111;
+    border-top: none;
+    background: #fff;
+    overflow-y: auto;
+    max-height: calc(5 * 3.2vh); /* ← number of visible suggestion rows */
+    z-index: 10;
+  }
+
+  .q-list::-webkit-scrollbar { width: 3px; }
+  .q-list::-webkit-scrollbar-thumb { background: #ccc; }
+
+  /* Single suggestion row */
+  .q-list-item {
+    display: flex;
+    align-items: center;
+    padding: 0.55vh 0.7vw;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(9px, 0.75vw, 12px); /* ← suggestion font size */
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    height: 3.2vh;
+  }
+
+  .q-list-item:hover { background: #f5f5f5; }
+
+  /* Selected municipality row */
+  .q-list-item.sel { background: #efefef; font-weight: 700; }
+
+  /* "No results" message */
+  .q-no-result {
+    padding: 1.5vh 0.8vw;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(10px, 0.85vw, 13px);
+    color: #aaa;
+  }
+
+  /* ── RIGHT COLUMN IMAGE ──────────────────────────────────── */
+
+  /* The shield / illustration shown in the right half */
+  .q-shield-img {
+    max-height: 70vh;  /* ← SHIELD HEIGHT — increase to make it bigger, decrease to shrink */
+    max-width: 90%;    /* ← SHIELD WIDTH CAP — relative to the right column width */
+    object-fit: contain;
+  }
+
+  /* ── RIGHT COLUMN: OPTIONS / SELECTION (Q2–Q5) ─────────────── */
+
+  .q-col-right-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2vh;
+    width: 100%;
+  }
+
+  .q-col-right .q-options {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2vh;
+    width: 100%;
+    max-width: 85%;
+  }
+
+  /* ── Q3: SVG ICON GRID (2x2, hover animation) ───────────────────────────── */
+
+  .q-hälsa-grid {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: center;
+    row-gap: 0.1vh;
+    column-gap: 10px;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .q-hälsa-opt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vh;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    transition: transform 0.12s ease;
+  }
+
+  .q-hälsa-opt:active {
+    transform: scale(0.97);
+  }
+
+  .q-hälsa-svg-wrap {
+    position: relative;
+    width: 260px; /* explicit size so max-content columns don't collapse */
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .q-hälsa-svg-wrap img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: opacity 0.35s ease;
+  }
+
+  .q-hälsa-svg-default { opacity: 1; }
+  .q-hälsa-svg-hover   { opacity: 0; }
+
+  .q-hälsa-opt:hover .q-hälsa-svg-default { opacity: 0; }
+  .q-hälsa-opt:hover .q-hälsa-svg-hover   { opacity: 1; }
+
+  .q-hälsa-opt.selected .q-hälsa-svg-default { opacity: 0; }
+  .q-hälsa-opt.selected .q-hälsa-svg-hover   { opacity: 1; }
+
+  /* No label under icons (label shows under question text instead) */
+
+  /* ── Q5: SVG ICON ROW (3 side-by-side, same behavior as Q3) ─────────────── */
+
+  .q-kunskap-row {
+    display: grid;
+    grid-template-columns: max-content max-content max-content;
+    justify-content: center;
+    column-gap: 10px;
+    width: 100%;
+  }
+
+  .q-kunskap-opt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: transform 0.12s ease;
+  }
+
+  .q-kunskap-opt:active {
+    transform: scale(0.97);
+  }
+
+  .q-kunskap-svg-wrap {
+    position: relative;
+    width: 220px;
+    aspect-ratio: 1;
+  }
+
+  .q-kunskap-svg-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: opacity 0.35s ease;
+  }
+
+  .q-kunskap-svg-default { opacity: 1; }
+  .q-kunskap-svg-hover   { opacity: 0; }
+
+  .q-kunskap-opt:hover .q-kunskap-svg-default { opacity: 0; }
+  .q-kunskap-opt:hover .q-kunskap-svg-hover   { opacity: 1; }
+
+  .q-kunskap-opt.selected .q-kunskap-svg-default { opacity: 0; }
+  .q-kunskap-opt.selected .q-kunskap-svg-hover   { opacity: 1; }
+
+  /* ── Q2: HOUSING (2 icons + year followup) ─────────────────────────────── */
+
+  .q-boende-row {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    justify-content: center;
+    column-gap: 10px;
+    width: 100%;
+  }
+
+  .q-boende-opt {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    transition: transform 0.12s ease;
+  }
+
+  .q-boende-opt:active {
+    transform: scale(0.97);
+  }
+
+  .q-boende-svg-wrap {
+    position: relative;
+    width: 260px;
+    aspect-ratio: 1;
+  }
+
+  .q-boende-svg-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    transition: opacity 0.35s ease;
+  }
+
+  .q-boende-svg-default { opacity: 1; }
+  .q-boende-svg-hover   { opacity: 0; }
+
+  .q-boende-opt:hover .q-boende-svg-default { opacity: 0; }
+  .q-boende-opt:hover .q-boende-svg-hover   { opacity: 1; }
+
+  .q-boende-opt.selected .q-boende-svg-default { opacity: 0; }
+  .q-boende-opt.selected .q-boende-svg-hover   { opacity: 1; }
+
+  .q-col-right .q-opt {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    padding: 1.8vh 1.2vw;
+    background: #fff;
+    border: 1px solid #111;
+    cursor: pointer;
+    text-align: left;
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(12px, 1.2vw, 18px);
+    font-weight: 500;
+    color: #111;
+  }
+
+  .q-col-right .q-opt:hover { background: #f5f5f5; }
+
+  .q-col-right .q-opt.selected {
+    border-color: #111;
+    background: #eee;
+  }
+
+  .q-opt .q-opt-radio {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .q-opt .q-opt-radio svg {
+    width: 12px;
+    height: 12px;
+    display: block;
+  }
+
+  .q-opt .q-opt-label { flex: 1; }
+
+  .q-opt .q-opt-radio .q-tri-outline {
+    fill: none;
+    stroke: #111;
+    stroke-width: 1.5;
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+  }
+
+  .q-opt .q-opt-radio .q-tri-fill {
+    fill: #111;
+    transition: fill 0.25s ease, opacity 0.25s ease;
+  }
+
+  .q-opt .q-opt-radio .q-tri-fill {
+    opacity: 0;
+  }
+
+  .q-opt.selected .q-opt-radio .q-tri-fill {
+    opacity: 1;
+  }
+
+  .q-col-right .q-opt,
+  .q-col-left .q-opt,
+  .q-opts-grid--left .q-opt {
+    transition: background 0.25s ease, border-color 0.25s ease;
+  }
+
+  .q-col-right .q-opts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1vh;
+  }
+
+  .q-col-right .q-sub-label {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(10px, 0.9vw, 14px);
+    color: #555;
+    align-self: flex-start;
+  }
+
+  .q-sub-label--helvetica {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    font-size: clamp(14px, 1.4vw, 22px) !important;
+    font-weight: 500;
+    color: #111;
+  }
+
+  .q-boende-byggår {
+    margin-top: 2vh;
+    max-width: 100%;
+  }
+
+  .q-col-left .q-opt,
+  .q-opts-grid--left .q-opt {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    padding: 1.4vh 1.2vw;
+    background: #fff;
+    border: 1px solid #111;
+    cursor: pointer;
+    text-align: left;
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(12px, 1.2vw, 18px);
+    font-weight: 500;
+    color: #111;
+  }
+
+  .q-col-left .q-opt.q-opt--mono,
+  .q-opts-grid--left .q-opt.q-opt--mono {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(10px, 0.9vw, 13px);
+    font-weight: 400;
+  }
+
+  .q-col-left .q-opt.q-opt--mono .q-opt-label,
+  .q-opts-grid--left .q-opt.q-opt--mono .q-opt-label {
+    font-family: 'Space Mono', monospace;
+    white-space: nowrap;
+  }
+
+  .q-opts-grid--left .q-opt {
+    font-size: clamp(12px, 1.1vw, 16px);
+  }
+
+  .q-col-left .q-opt:hover,
+  .q-opts-grid--left .q-opt:hover { background: #f5f5f5; }
+
+  .q-col-left .q-opt.selected,
+  .q-opts-grid--left .q-opt.selected {
+    border-color: #111;
+    background: #eee;
+  }
+
+  .q-opts-grid--left {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1vh;
+    margin-top: 1vh;
+  }
+
+  .q-col-right .q-age-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5vh;
+    width: 100%;
+    max-width: 85%;
+  }
+
+  .q-col-right .q-age-num {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(24px, 3vw, 40px);
+    font-weight: 500;
+    color: #111;
+  }
+
+  .q-col-right .q-age-num span {
+    font-size: 0.5em;
+    font-weight: 400;
+    color: #555;
+  }
+
+  .q-col-right .q-slider-track {
+    width: 100%;
+    max-width: 280px;
+    height: 6px;
+    border: 1px solid #111;
+    background: #fff;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .q-col-right .q-slider-track::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #111;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .q-col-right .q-slider-track::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border: 1px solid #111;
+    background: #fff;
+    cursor: pointer;
+  }
+
+  .q-col-right .q-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 280px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #888;
+  }
+
+  /* ── Q4: AGE (left column slider + centered illustration) ───────────────── */
+
+  .q-age-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    width: 100%;
+  }
+
+  .q-age-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+    width: 100%;
+    max-width: 380px;
+  }
+
+  .q-age-illu-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 520px;
+    aspect-ratio: 1;
+    margin: 1vh auto 0;
+    overflow: hidden;
+    background: #fff;
+    contain: layout paint;
+    isolation: isolate;
+  }
+
+  /* Age SVG layers — transition on wrapper div to avoid img decode flicker */
+  .q-age-illu-wrap .q-age-illu {
+    position: absolute;
+    inset: 0;
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    backface-visibility: hidden;
+    transform: translateZ(0);
+  }
+
+  .q-age-illu-wrap .q-age-illu img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
+  }
+
+  .q-age-illu { opacity: 0; }
+
+  .q-age-illu-wrap[data-kind="default"] .q-age-illu--default { opacity: 1; }
+  .q-age-illu-wrap[data-kind="bebis"]   .q-age-illu--bebis   { opacity: 1; }
+  .q-age-illu-wrap[data-kind="barn"]    .q-age-illu--barn    { opacity: 1; }
+  .q-age-illu-wrap[data-kind="vuxen"]   .q-age-illu--vuxen   { opacity: 1; }
+  .q-age-illu-wrap[data-kind="gammal"]  .q-age-illu--gammal  { opacity: 1; }
+
+  /* Restore original Q4 slider look, but in left column */
+  .q-age-controls .q-age-num {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(24px, 3vw, 40px);
+    font-weight: 500;
+    color: #111;
+  }
+
+  .q-age-controls .q-age-num span {
+    font-size: 0.5em;
+    font-weight: 400;
+    color: #555;
+  }
+
+  .q-age-controls .q-slider-track {
+    width: 100%;
+    max-width: 380px;
+    height: 1px;              /* single line */
+    border: none;
+    background: #111;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  .q-age-controls .q-slider-track::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px;
+    height: 20px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 86.602'%3E%3Cpolygon points='50,0 0,86.602 100,86.602' fill='%23111'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    margin-top: -9.5px;       /* center triangle on 1px line */
+  }
+
+  .q-age-controls .q-slider-track::-moz-range-thumb {
+    width: 22px;
+    height: 20px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 86.602'%3E%3Cpolygon points='50,0 0,86.602 100,86.602' fill='%23111'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .q-age-controls .q-slider-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 380px;
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: #888;
+  }
+
+  /* ── BOTTOM FRAME INDICATORS ─────────────────────────────── */
+
+  /* Container row for the three bottom indicator marks */
+  .q-bottom-frame {
+    position: relative;
+    height: 45px;       /* ← height of the bottom frame zone */
+    flex-shrink: 0;
+    margin-bottom: 2vh; /* ← moves corners + T-cap UP — increase to push further up */
+  }
+
+  /* Bottom-left corner bracket — └ shape */
+  .q-corner-bl {
+    position: absolute;
+    left: 5.4vw;        /* ← distance from left edge (match counter box) */
+    top: 0;
+    width: 45px;        /* ← arm length going right */
+    height: 45px;       /* ← arm length going down */
+    border-left: 1px solid #111;
+    border-bottom: 1px solid #111;
+  }
+
+  /* Bottom-right corner bracket — ┘ shape */
+  .q-corner-br {
+    position: absolute;
+    right: 5.4vw;       /* ← distance from right edge (match next-arrow box) */
+    top: 0;
+    width: 45px;        /* ← arm length going left */
+    height: 45px;       /* ← arm length going down */
+    border-right: 1px solid #111;
+    border-bottom: 1px solid #111;
+  }
+
+  /* Center bottom T-indicator — ┴ shape, marks the column split */
+  .q-bottom-tcap {
+    position: absolute;
+    bottom: 0;
+    left: 45%;          /* ← column split position (match top T and col width) */
+    transform: translateX(-50%);
+  }
+
+  /* ── PROGRESS BAR ────────────────────────────────────────── */
+
+  /* PROGRESS BAR */
+  .q-progress {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 5.4vw 2vh;
+    gap: 1.5vw;
+    height: 11vh;
+  }
+
+  .q-runner-wrap {
+    flex-shrink: 0;
+    height: 8vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .q-runner-img {
+    height: 100%;
+    width: auto;
+  }
+
+  .q-prog-track {
+    flex: 1;
+    position: relative;
+    height: 0.5px;
+    background: #111;
+    overflow: visible;
+  }
+
+  .q-prog-dot {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 5px;
+    height: 5px;
+    border-radius: 0;
+    background: #111;
+    transition: background 0.25s ease, opacity 0.25s ease;
+  }
+
+  .q-prog-dot.exploded {
+    background: transparent;
+  }
+  .q-prog-dot.dot--at-runner {
+    opacity: 0;
+  }
+
+  .q-dot-expl-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% - 7px));
+    width: 36px;
+    height: 36px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+  }
+
+  .q-prog-dot.exploded .q-dot-expl-img {
+    opacity: 1;
+  }
+
+  .q-prog-dot.exploded--instant .q-dot-expl-img {
+    opacity: 1;
+    transition: none;
+  }
+
+
+  .q-home-img {
+    height: 4.5vh;
+    width: auto;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .shelter-icon {
+    display: none;
+  }
+
+  .header-text h1 {
+    font-size: 16px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .header-text p {
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .steps {
+    display: flex;
+    align-items: center;
+    margin-bottom: 24px;
+    gap: 4px;
+  }
+
+  .step-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: transparent;
+    flex-shrink: 0;
+  }
+
+  .step-dot.active {
+    background: #000000;
+  }
+
+  .step-dot.done {
+    background: #000000;
+  }
+
+  .step-line {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .step-line.done {
+    background: #000000;
+  }
+
+  .step-label {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
+
+  .q-wrap {
+    margin-top: 8px;
+  }
+
+  .q-num {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .q-title {
+    font-size: 14px;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    margin-bottom: 4px;
+  }
+
+  /* keep descriptions but make them quieter */
+  .q-desc {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .opt {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font);
+    color: var(--text);
+    font-size: 12px;
+    width: 100%;
+  }
+
+  .opt:hover {
+    background: #f5f5f5;
+  }
+
+  .opt.selected {
+    border-color: #000000;
+    background: #f0f0f0;
+  }
+
+  .opt-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .opt-icon svg {
+    width: 16px;
+    height: 16px;
+    stroke: #000000;
+    fill: none;
+  }
+
+  .opt-body {
+    flex: 1;
+  }
+
+  .opt-label {
+    font-weight: 400;
+    font-size: 12px;
+  }
+
+  .opt-sub {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  .opt-radio {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+
+  .opt.selected .opt-radio {
+    border-color: #000000;
+    background: #000000;
+  }
+
+  .sub-q {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--line);
+  }
+
+  .sub-q-label {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .opts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+
+  .search-box {
+    margin-bottom: 4px;
+  }
+
+  .search-box input {
+    width: 100%;
+    padding: 10px 12px;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    font-family: var(--font);
+    font-size: 12px;
+    color: var(--text);
+    outline: none;
+  }
+
+  .search-box input:focus {
+    border-color: #000000;
+  }
+
+  .search-box input::placeholder {
+    color: var(--muted);
+  }
+
+  .kommun-list {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    max-height: 240px;
+    overflow-y: auto;
+  }
+
+  .kommun-list::-webkit-scrollbar {
+    width: 3px;
+  }
+
+  .kommun-list::-webkit-scrollbar-thumb {
+    background: var(--line);
+  }
+
+  .k-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    font-size: 12px;
+  }
+
+  .k-item:hover {
+    background: #f5f5f5;
+  }
+
+  .k-item.selected {
+    background: #f0f0f0;
+  }
+
+  .k-item.selected .k-cov {
+    color: var(--muted);
+  }
+
+  .k-cov {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  .no-result {
+    padding: 12px;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .age-block {
+    padding: 4px 0 8px;
+  }
+
+  .age-number {
+    font-size: 40px;
+    font-weight: 400;
+    color: #000000;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .age-number span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  .slider-track {
+    padding: 8px 0;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 1px;
+    background: var(--line);
+    outline: none;
+    cursor: pointer;
+    display: block;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    background: #000000;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  input[type=range]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: #000000;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  .nav {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .btn-primary {
+    flex: 1;
+    padding: 10px 16px;
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    font-family: var(--font);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .btn-primary:disabled {
+    background: #f5f5f5;
+    color: var(--muted);
+    border-color: var(--line);
+    cursor: default;
+  }
+
+  .btn-back {
+    padding: 10px 12px;
+    background: #ffffff;
+    color: var(--muted);
+    border: 1px solid var(--line);
+    font-family: var(--font);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+
+  .btn-back:hover {
+    background: #f5f5f5;
+  }
+
+  /* ── RESULT PAGE (inside q-col-left, same layout as questions) ─────────────── */
+
+  .q-result-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+  }
+
+  .q-result-inner .q-h2 {
+    margin-bottom: 1vh;
+  }
+
+  .q-result-score {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(28px, 3.5vw, 48px);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: #111;
+    margin-bottom: 0.5vh;
+  }
+
+  .q-result-score span {
+    font-size: 0.45em;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .q-result-level {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(12px, 1.1vw, 18px);
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 0.8vh;
+  }
+
+  .q-result-desc {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(9px, 0.75vw, 12px);
+    color: #555;
+    line-height: 1.4;
+    margin-bottom: 2.5vh;
+  }
+
+  .q-result-desc a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .q-result-desc a:hover {
+    color: #0066cc;
+  }
+
+  .q-result-section {
+    margin-bottom: 2vh;
+  }
+
+  .q-result-section-label {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(12px, 1.1vw, 18px);
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 1vh;
+  }
+
+  .q-result-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 1vw;
+    margin-bottom: 0.8vh;
+  }
+
+  .q-result-bar-name {
+    width: 90px;
+    flex-shrink: 0;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(9px, 0.75vw, 12px);
+    color: #555;
+  }
+
+  .q-result-bar-track {
+    flex: 1;
+    height: 2px;
+    background: #ddd;
+  }
+
+  .q-result-bar-fill {
+    height: 100%;
+    background: #111;
+  }
+
+  .q-result-bar-val {
+    width: 28px;
+    text-align: right;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(9px, 0.75vw, 12px);
+    color: #555;
+  }
+
+  .q-result-tips-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6vh;
+    margin: 0;
+    padding: 0;
+  }
+
+  .q-result-tips-list li {
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(9px, 0.75vw, 12px);
+    color: #555;
+    line-height: 1.35;
+  }
+
+  .q-btn-restart {
+    align-self: flex-start;
+    padding: 1vh 1.2vw;
+    background: #fff;
+    border: 1px solid #111;
+    font-family: 'Space Mono', monospace;
+    font-size: clamp(9px, 0.75vw, 12px);
+    color: #111;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 1vh;
+  }
+
+  .q-btn-restart:hover {
+    background: #f5f5f5;
+  }
+
+  .q-page--result .q-col-left {
+    justify-content: center;
+    padding-top: 4vh;
+    padding-bottom: 4vh;
+  }
+
+  .q-page--result .q-col-right {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .q-result-right {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .q-result-svg {
+    position: absolute;
+    top: -4vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 520px;
+    object-fit: contain;
+    pointer-events: none;
+  }
+
+  .q-result-rekom {
+    position: absolute;
+    bottom: 6vh;
+    left: 4vw;
+    right: 4vw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .q-result-rekom-label {
+    font-family: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: clamp(12px, 1.1vw, 18px);
+    font-weight: 500;
+    color: #111;
+    margin-bottom: 1vh;
+  }
+
+  @media (max-width: 480px) {
+    .opts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .age-number {
+      font-size: 32px;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div class="shelter-icon">
+      <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="18" cy="7" r="3.5" fill="#e05c00"/>
+        <line x1="18" y1="10.5" x2="18" y2="20" stroke="#e05c00" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="18" y1="20" x2="13" y2="28" stroke="#e05c00" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="18" y1="20" x2="23" y2="28" stroke="#e05c00" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="18" y1="15" x2="13" y2="19" stroke="#e05c00" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="18" y1="15" x2="23" y2="19" stroke="#e05c00" stroke-width="2.2" stroke-linecap="round"/>
+        <line x1="30" y1="12" x2="30" y2="27" stroke="#e05c00" stroke-width="1.8" stroke-linecap="round"/>
+        <polyline points="26,23 30,28 34,23" stroke="#e05c00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="header-text">
+      <h1>Hinner du till ett skyddsrum?</h1>
+      <p>Fem frågor. En uppskattning av dina förutsättningar att nå ett skyddsrum vid ett krigsutbrott.</p>
+    </div>
+  </div>
+  <div id="root"></div>
+</div>
+
+<script>
+const KOMMUNER = [
+  {n:"Ale",c:38},{n:"Alingsås",c:51},{n:"Alvesta",c:43},{n:"Aneby",c:1},{n:"Arboga",c:81},
+  {n:"Arjeplog",c:18},{n:"Arvidsjaur",c:77},{n:"Arvika",c:68},{n:"Askersund",c:4},{n:"Avesta",c:95},
+  {n:"Bengtsfors",c:7},{n:"Berg",c:1},{n:"Bjurholm",c:0},{n:"Bjuv",c:26},{n:"Boden",c:91},
+  {n:"Bollebygd",c:0},{n:"Bollnäs",c:79},{n:"Borgholm",c:4},{n:"Borlänge",c:90},{n:"Borås",c:69},
+  {n:"Botkyrka",c:75},{n:"Boxholm",c:1},{n:"Bromölla",c:53},{n:"Bräcke",c:47},{n:"Burlöv",c:82},
+  {n:"Båstad",c:1},{n:"Dals-Ed",c:2},{n:"Danderyd",c:82},{n:"Degerfors",c:78},{n:"Dorotea",c:0},
+  {n:"Eda",c:22},{n:"Ekerö",c:13},{n:"Eksjö",c:54},{n:"Emmaboda",c:27},{n:"Enköping",c:48},
+  {n:"Eskilstuna",c:80},{n:"Eslöv",c:61},{n:"Essunga",c:4},{n:"Fagersta",c:100},{n:"Falkenberg",c:37},
+  {n:"Falköping",c:67},{n:"Falun",c:74},{n:"Filipstad",c:97},{n:"Finspång",c:84},{n:"Flen",c:63},
+  {n:"Forshaga",c:17},{n:"Färgelanda",c:0},{n:"Gagnef",c:2},{n:"Gislaved",c:32},{n:"Gnesta",c:3},
+  {n:"Gnosjö",c:3},{n:"Gotland",c:54},{n:"Grums",c:55},{n:"Grästorp",c:0},{n:"Gullspång",c:6},
+  {n:"Gällivare",c:86},{n:"Gävle",c:78},{n:"Göteborg",c:84},{n:"Götene",c:3},{n:"Habo",c:3},
+  {n:"Hagfors",c:74},{n:"Hallsberg",c:62},{n:"Hallstahammar",c:85},{n:"Halmstad",c:73},{n:"Hammarö",c:43},
+  {n:"Haninge",c:69},{n:"Haparanda",c:70},{n:"Heby",c:3},{n:"Hedemora",c:59},{n:"Helsingborg",c:76},
+  {n:"Herrljunga",c:34},{n:"Hjo",c:6},{n:"Hofors",c:96},{n:"Huddinge",c:70},{n:"Hudiksvall",c:75},
+  {n:"Hultsfred",c:57},{n:"Hylte",c:21},{n:"Håbo",c:23},{n:"Hällefors",c:79},{n:"Härjedalen",c:41},
+  {n:"Härnösand",c:100},{n:"Härryda",c:29},{n:"Hässleholm",c:65},{n:"Höganäs",c:40},{n:"Högsby",c:7},
+  {n:"Hörby",c:40},{n:"Höör",c:33},{n:"Jokkmokk",c:5},{n:"Järfälla",c:71},{n:"Jönköping",c:58},
+  {n:"Kalix",c:62},{n:"Kalmar",c:82},{n:"Karlsborg",c:61},{n:"Karlshamn",c:66},{n:"Karlskoga",c:100},
+  {n:"Karlskrona",c:64},{n:"Karlstad",c:80},{n:"Katrineholm",c:77},{n:"Kil",c:50},{n:"Kinda",c:3},
+  {n:"Kiruna",c:100},{n:"Klippan",c:74},{n:"Knivsta",c:1},{n:"Kramfors",c:60},{n:"Kristianstad",c:56},
+  {n:"Kristinehamn",c:95},{n:"Krokom",c:16},{n:"Kumla",c:56},{n:"Kungsbacka",c:20},{n:"Kungsör",c:63},
+  {n:"Kungälv",c:45},{n:"Kävlinge",c:32},{n:"Köping",c:100},{n:"Laholm",c:28},{n:"Landskrona",c:72},
+  {n:"Laxå",c:82},{n:"Lekeberg",c:1},{n:"Leksand",c:3},{n:"Lerum",c:20},{n:"Lessebo",c:5},
+  {n:"Lidingö",c:83},{n:"Lidköping",c:67},{n:"Lilla Edet",c:30},{n:"Lindesberg",c:54},{n:"Linköping",c:73},
+  {n:"Ljungby",c:64},{n:"Ljusdal",c:58},{n:"Ljusnarsberg",c:70},{n:"Lomma",c:29},{n:"Ludvika",c:87},
+  {n:"Luleå",c:92},{n:"Lund",c:73},{n:"Lycksele",c:91},{n:"Lysekil",c:57},{n:"Malmö",c:84},
+  {n:"Malung-Sälen",c:4},{n:"Malå",c:0},{n:"Mariestad",c:98},{n:"Mark",c:32},{n:"Markaryd",c:1},
+  {n:"Mellerud",c:37},{n:"Mjölby",c:63},{n:"Mora",c:68},{n:"Motala",c:80},{n:"Mullsjö",c:1},
+  {n:"Munkedal",c:15},{n:"Munkfors",c:50},{n:"Mölndal",c:81},{n:"Mönsterås",c:6},{n:"Mörbylånga",c:3},
+  {n:"Nacka",c:57},{n:"Nora",c:55},{n:"Norberg",c:1},{n:"Nordanstig",c:0},{n:"Nordmaling",c:0},
+  {n:"Norrköping",c:89},{n:"Norrtälje",c:34},{n:"Norsjö",c:0},{n:"Nybro",c:78},{n:"Nykvarn",c:1},
+  {n:"Nyköping",c:76},{n:"Nynäshamn",c:50},{n:"Nässjö",c:68},{n:"Ockelbo",c:45},{n:"Olofström",c:100},
+  {n:"Orsa",c:4},{n:"Orust",c:0},{n:"Osby",c:61},{n:"Oskarshamn",c:88},{n:"Ovanåker",c:3},
+  {n:"Oxelösund",c:100},{n:"Pajala",c:20},{n:"Partille",c:64},{n:"Perstorp",c:100},{n:"Piteå",c:53},
+  {n:"Ragunda",c:16},{n:"Robertsfors",c:0},{n:"Ronneby",c:74},{n:"Rättvik",c:5},{n:"Sala",c:71},
+  {n:"Salem",c:46},{n:"Sandviken",c:95},{n:"Sigtuna",c:69},{n:"Simrishamn",c:62},{n:"Sjöbo",c:37},
+  {n:"Skara",c:76},{n:"Skellefteå",c:57},{n:"Skinnskatteberg",c:9},{n:"Skurup",c:23},{n:"Skövde",c:90},
+  {n:"Smedjebacken",c:43},{n:"Sollefteå",c:83},{n:"Sollentuna",c:66},{n:"Solna",c:100},{n:"Sorsele",c:0},
+  {n:"Sotenäs",c:15},{n:"Staffanstorp",c:22},{n:"Stenungsund",c:47},{n:"Stockholm",c:71},{n:"Storfors",c:39},
+  {n:"Storuman",c:42},{n:"Strängnäs",c:35},{n:"Strömstad",c:45},{n:"Strömsund",c:19},{n:"Sundbyberg",c:74},
+  {n:"Sundsvall",c:97},{n:"Sunne",c:4},{n:"Surahammar",c:52},{n:"Svalöv",c:9},{n:"Svedala",c:37},
+  {n:"Svenljunga",c:0},{n:"Säffle",c:77},{n:"Säter",c:5},{n:"Sävsjö",c:8},{n:"Söderhamn",c:92},
+  {n:"Söderköping",c:22},{n:"Södertälje",c:91},{n:"Sölvesborg",c:77},{n:"Tanum",c:0},{n:"Tibro",c:67},
+  {n:"Tidaholm",c:62},{n:"Tierp",c:34},{n:"Timrå",c:81},{n:"Tingsryd",c:6},{n:"Tjörn",c:1},
+  {n:"Tomelilla",c:48},{n:"Torsby",c:1},{n:"Torsås",c:1},{n:"Tranemo",c:0},{n:"Tranås",c:87},
+  {n:"Trelleborg",c:51},{n:"Trollhättan",c:87},{n:"Trosa",c:1},{n:"Tyresö",c:58},{n:"Täby",c:62},
+  {n:"Töreboda",c:59},{n:"Uddevalla",c:75},{n:"Ulricehamn",c:34},{n:"Umeå",c:77},{n:"Upplands Väsby",c:75},
+  {n:"Upplands-Bro",c:27},{n:"Uppsala",c:64},{n:"Uppvidinge",c:5},{n:"Vadstena",c:16},{n:"Vaggeryd",c:4},
+  {n:"Valdemarsvik",c:8},{n:"Vallentuna",c:29},{n:"Vansbro",c:9},{n:"Vara",c:1},{n:"Varberg",c:40},
+  {n:"Vaxholm",c:37},{n:"Vellinge",c:20},{n:"Vetlanda",c:44},{n:"Vilhelmina",c:0},{n:"Vimmerby",c:65},
+  {n:"Vindeln",c:4},{n:"Vingåker",c:9},{n:"Vårgårda",c:21},{n:"Vänersborg",c:61},{n:"Vännäs",c:54},
+  {n:"Värmdö",c:13},{n:"Värnamo",c:59},{n:"Västervik",c:67},{n:"Västerås",c:83},{n:"Växjö",c:70},
+  {n:"Ydre",c:0},{n:"Ystad",c:71},{n:"Åmål",c:85},{n:"Ånge",c:64},{n:"Åre",c:16},
+  {n:"Årjäng",c:1},{n:"Åsele",c:0},{n:"Åstorp",c:61},{n:"Åtvidaberg",c:65},{n:"Älmhult",c:64},
+  {n:"Älvdalen",c:5},{n:"Älvkarleby",c:48},{n:"Älvsbyn",c:73},{n:"Ängelholm",c:54},{n:"Öckerö",c:1},
+  {n:"Ödeshög",c:0},{n:"Örebro",c:62},{n:"Örkelljunga",c:23},{n:"Örnsköldsvik",c:71},{n:"Östersund",c:100},
+  {n:"Österåker",c:26},{n:"Östhammar",c:18},{n:"Östra Göinge",c:20},{n:"Överkalix",c:23},{n:"Övertorneå",c:38}
+];
+
+let S = { step:-1, search:'', kommun:null, boende:null, byggår:null, hälsa:null, ålder:35, ageTouched:false, ageKind:'default', kunskap:null };
+
+function calcScore() {
+  const k = KOMMUNER.find(x => x.n === S.kommun);
+  const kommunScore = k ? Math.min(k.c, 100) : 0;
+  let boendeScore = 50;
+  if      (S.boende==='lagenhet'&&S.byggår==='fore1960')   boendeScore=100;
+  else if (S.boende==='lagenhet'&&S.byggår==='19602002')   boendeScore=88;
+  else if (S.boende==='lagenhet'&&S.byggår==='efter2002')  boendeScore=28;
+  else if (S.boende==='lagenhet'&&S.byggår==='vetej')      boendeScore=55;
+  else if (S.boende==='hus'&&S.byggår==='fore1960')        boendeScore=22;
+  else if (S.boende==='hus'&&S.byggår==='19602002')        boendeScore=18;
+  else if (S.boende==='hus'&&S.byggår==='efter2002')       boendeScore=5;
+  else if (S.boende==='hus'&&S.byggår==='vetej')           boendeScore=14;
+  const hm={ingen:100,lätt:65,tydlig:32,stor:8};
+  const hälsaScore=hm[S.hälsa]||50;
+  const a=S.ålder;
+  const åldersScore=a<10?28:a<15?52:a<=50?100:a<=60?85:a<=70?65:a<=80?42:20;
+  const km={ja:100,ungefär:50,nej:8};
+  const kunskapScore=km[S.kunskap]||50;
+  const total=Math.round(kommunScore*0.30+boendeScore*0.20+hälsaScore*0.20+åldersScore*0.15+kunskapScore*0.15);
+  return {total,kommunScore,boendeScore,hälsaScore,åldersScore,kunskapScore};
+}
+
+function getLevel(s){
+  const skyddsrumLink = '<a href="https://www.mcf.se/sv/verktyg--tjanster/skyddsrumskarta/" target="_blank" rel="noopener noreferrer">MSBs skyddsrumskarta</a>';
+  if(s>=61)return{label:'Säkert läge',desc:`Du har goda chanser att ta dig till ett skyddsrum. Fortsätt planera: lär dig exakt var ditt närmaste skyddsrum finns via ${skyddsrumLink}.`,svg:'new piktogram_Säkert läge.svg'};
+  if(s>=36)return{label:'Osäkert läge',desc:`Det finns faktorer som kan försvåra din situation. Identifiera ditt närmaste skyddsrum och hur du tar dig dit redan nu via ${skyddsrumLink}.`,svg:'new piktogram_Osäkert läge.svg'};
+  return{label:'Oroande läge',desc:`Dina förutsättningar är begränsade. Identifiera ditt närmaste skyddsrum och hur du tar dig dit redan nu via ${skyddsrumLink}.`,svg:'new piktogram_Oroande läge.svg'};
+}
+
+function getTips(levelLabel){
+  if(levelLabel==='Säkert läge'){
+    return [
+      'Öva på att ta dig till ditt skyddsrum - tid är avgörande vid ett larm.',
+      'Lyssna alltid på VMA-larm (viktigt meddelande till allmänheten) i radio och TV.',
+      'Var beredd att hjälpa andra vid en krissituation.'
+    ];
+  }
+  return [
+    'Se över om det finns alternativa skyddsmöjligheter i till exempel källare, tunnlar eller garage.',
+    'Kontakta din kommun: de kan ha information om tillgänglighetsanpassade skyddsrum',
+    'Lyssna alltid på VMA-larm (viktigt meddelande till allmänheten) i radio och TV.'
+  ];
+}
+
+// SVG icons
+const IC={
+  lagenhet:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><rect x="3" y="3" width="18" height="18"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>`,
+  hus:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3,10 12,3 21,10"/><rect x="5" y="10" width="14" height="11"/><rect x="9" y="15" width="6" height="6"/></svg>`,
+  ingen:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="5" r="2.5"/><line x1="12" y1="7.5" x2="12" y2="15"/><line x1="8.5" y1="11" x2="15.5" y2="11"/><line x1="9" y1="15" x2="12" y2="20"/><line x1="15" y1="15" x2="12" y2="20"/></svg>`,
+  lätt:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="5" r="2.5"/><line x1="12" y1="7.5" x2="11" y2="15"/><line x1="8" y1="10" x2="15" y2="10"/><line x1="11" y1="15" x2="9" y2="20"/><line x1="11" y1="15" x2="14" y2="20"/></svg>`,
+  tydlig:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="5" r="2.5"/><line x1="10" y1="7.5" x2="9" y2="15"/><line x1="7" y1="10" x2="13" y2="10"/><line x1="9" y1="15" x2="7" y2="20"/><line x1="9" y1="15" x2="12" y2="18"/><line x1="16" y1="16" x2="21" y2="17"/></svg>`,
+  stor:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="9" cy="5" r="2.5"/><line x1="9" y1="7.5" x2="9" y2="13"/><line x1="6" y1="10" x2="12" y2="10"/><path d="M6 21 Q9 16 13 18 Q16 20 19 18" stroke-linejoin="round"/><circle cx="19.5" cy="17.5" r="1.5"/></svg>`,
+  ja:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><polyline points="8,12 11,15 16,9"/></svg>`,
+  ungefär:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5 Q9.5 7 12 7 Q14.5 7 14.5 9.5 Q14.5 12 12 12"/><circle cx="12" cy="15.5" r="0.8" fill="currentColor"/></svg>`,
+  nej:`<svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><line x1="9" y1="9" x2="15" y2="15"/><line x1="15" y1="9" x2="9" y2="15"/></svg>`
+};
+
+function introView(){
+  return `<div class="intro-frame">
+    <div class="intro-corner-wrap" aria-label="Hem" role="button" tabindex="0" onclick="goToStatisticsHome()" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();goToStatisticsHome();}">
+      <img class="intro-corner-icon" src="nya pikto/piktorgrawwadmam.svg" alt="Hem">
+    </div>
+    <div class="intro-title-box">
+      <h1>HINNER DU TILL ETT SKYDDSRUM?</h1>
+    </div>
+    <img class="intro-silhouette" src="nya pikto/new piktogram_Springer blå.svg" alt="Springande figur">
+    <img class="intro-arrow" src="nya pikto/new piktogram_Pil höger.svg" alt="Starta quiz" onclick="go(0)">
+  </div>`;
+}
+
+function dots(cur){
+  let h='<div class="steps">';
+  for(let i=0;i<5;i++){
+    const c=i<cur?'done':i===cur?'active':'';
+    h+=`<div class="step-dot ${c}"></div>`;
+    if(i<4) h+=`<div class="step-line ${i<cur?'done':''}"></div>`;
+  }
+  h+=`<span class="step-label">${cur<5?(cur+1)+' / 5':'✓'}</span></div>`;
+  return h;
+}
+
+function opt(val,label,sub,ic,key,extra=''){
+  const sel=S[key]===val;
+  return `<button class="opt${sel?' selected':''}" onclick="S['${key}']='${val}';${extra}render()">
+    <div class="opt-icon">${IC[ic]||''}</div>
+    <div class="opt-body"><div class="opt-label">${label}</div>${sub?`<div class="opt-sub">${sub}</div>`:''}</div>
+    <div class="opt-radio"></div>
+  </button>`;
+}
+
+function sopt(val,label,sub,key){
+  const sel=S[key]===val;
+  return `<button class="opt${sel?' selected':''}" onclick="S['${key}']='${val}';render()" style="padding:10px 12px">
+    <div class="opt-body"><div class="opt-label">${label}</div>${sub?`<div class="opt-sub">${sub}</div>`:''}</div>
+    <div class="opt-radio"></div>
+  </button>`;
+}
+
+/* New option helpers for q-page layout (Q2–Q5) */
+function qOpt(val,label,key,extra=''){
+  const sel=S[key]===val;
+  return `<button class="q-opt${sel?' selected':''}" onclick="S['${key}']='${val}';${extra}render()">
+    <span class="q-opt-label">${label}</span>
+    <span class="q-opt-radio"><svg viewBox="-1 -1 12 10.66" xmlns="http://www.w3.org/2000/svg"><polygon class="q-tri-outline" points="5,0 10,8.66 0,8.66"/><polygon class="q-tri-fill" points="5,0 10,8.66 0,8.66"/></svg></span>
+  </button>`;
+}
+function qSopt(val,label,key){
+  const sel=S[key]===val;
+  const handler=key==='byggår'?`pickByggår('${val}')`:`S['${key}']='${val}';render()`;
+  const monoClass = key==='byggår' ? ' q-opt--mono' : '';
+  return `<button class="q-opt${monoClass}${sel?' selected':''}" data-${key}="${val}" onclick="${handler}">
+    <span class="q-opt-label">${label}</span>
+    <span class="q-opt-radio"><svg viewBox="-1 -1 12 10.66" xmlns="http://www.w3.org/2000/svg"><polygon class="q-tri-outline" points="5,0 10,8.66 0,8.66"/><polygon class="q-tri-fill" points="5,0 10,8.66 0,8.66"/></svg></span>
+  </button>`;
+}
+
+function pickByggår(val){
+  S.byggår=val;
+  const opts=document.querySelectorAll('[data-byggår]');
+  opts.forEach(btn=>{
+    btn.classList.toggle('selected', btn.dataset.byggår===val);
+  });
+  const next=document.querySelector('.q-next-box');
+  if(next){ next.disabled=false; next.onclick=function(){go(2);}; next.classList.add('activated'); }
+}
+
+function setBoendeHoverLabel(label){
+  const wrap=document.getElementById('q-boende-label-wrap');
+  if(!wrap) return;
+  const lagenhet=wrap.querySelector('.q-boende-label--lagenhet');
+  const hus=wrap.querySelector('.q-boende-label--hus');
+  if(!lagenhet||!hus) return;
+  const show=label||(S.boende==='lagenhet'?'lagenhet':S.boende==='hus'?'hus':'');
+  lagenhet.classList.toggle('is-visible', show==='lagenhet');
+  hus.classList.toggle('is-visible', show==='hus');
+}
+
+function pickBoende(val){
+  const prev=S.boende;
+  S.boende=val;
+  S.byggår=null;
+  if(!prev){
+    render();
+    return;
+  }
+  const btns=document.querySelectorAll('.q-boende-opt[data-boende]');
+  btns.forEach(b=>{
+    b.classList.toggle('selected', b.dataset.boende===val);
+  });
+  setBoendeHoverLabel('');
+}
+
+function qBoendeOpt(val, label, defaultSvg, hoverSvg) {
+  const sel = S.boende === val;
+  const safeLabel = esc(label);
+  return `<button class="q-boende-opt${sel ? ' selected' : ''}" data-boende="${val}"
+    onmouseenter="setBoendeHoverLabel('${val==='lagenhet'?'lagenhet':'hus'}')"
+    onmouseleave="setBoendeHoverLabel('')"
+    onclick="pickBoende('${val}')">
+    <div class="q-boende-svg-wrap">
+      <img class="q-boende-svg-default" src="nya pikto/${defaultSvg}" alt="">
+      <img class="q-boende-svg-hover" src="nya pikto/${hoverSvg}" alt="">
+    </div>
+  </button>`;
+}
+
+let prevStep = -1;
+let runnerStep = -1;    // step the runner has fully arrived at
+let runnerOrigCX = 0;   // runner's centre-X when transform is none (set fresh each render)
+const DOT_PCT = [20, 40, 60, 80];
+
+function qProgBarHtml(){
+  const dotElems=[0,1,2,3].map(i=>{
+    // Dots behind the runner are already exploded
+    const already = i < (runnerStep - 1);
+    // The dot the runner is currently resting on is transparent
+    const atRunner = !already && (runnerStep >= 1 && runnerStep <= 4) && i === (runnerStep - 1);
+    const cls = already ? ' exploded exploded--instant' : (atRunner ? ' dot--at-runner' : '');
+    return `<div class="q-prog-dot${cls}" data-dot="${i}" style="left:${DOT_PCT[i]}%"><img class="q-dot-expl-img" src="nya pikto/new piktogram_Explosion.svg" alt=""></div>`;
+  }).join('');
+  return `<div class="q-runner-wrap" id="qRunnerWrap">
+      <img class="q-runner-img" src="nya pikto/new piktogram_Springer.svg" alt="">
+    </div>
+    <div class="q-prog-track" id="qProgTrack">${dotElems}</div>
+    <img class="q-home-img" src="nya pikto/piktorgrawwadmam.svg" alt="Hem" onclick="restart()">`;
+}
+
+// Returns the absolute translateX needed to place the runner at dot for 'step'.
+// Always measured from runnerOrigCX (the un-transformed centre), so it's correct
+// regardless of whatever transform is currently applied to the element.
+function computeShift(step){
+  const track = document.getElementById('qProgTrack');
+  if(!track || step <= 0) return 0;
+  const tr = track.getBoundingClientRect();
+  // step 5 = result page: runner reaches the far end of the track
+  const pct = step >= 5 ? 100 : DOT_PCT[Math.min(step, 4) - 1];
+  const dotX = tr.left + tr.width * pct / 100;
+  return dotX - runnerOrigCX;
+}
+
+function animateProgress(from, to){
+  const rw = document.getElementById('qRunnerWrap');
+  if(!rw) return;
+
+  const fromShift = computeShift(from);
+  const toShift   = computeShift(to);
+
+  // If positions are identical there is nothing to animate.
+  if(fromShift === toShift){ runnerStep = to; return; }
+
+  // The dot being left (runner was resting on it — currently transparent).
+  // Fade it back in, then after a short delay explode it.
+  const leavingDotIdx = from - 1;
+  if(leavingDotIdx >= 0 && leavingDotIdx <= 3){
+    const leavingDot = document.querySelector(`.q-prog-dot[data-dot="${leavingDotIdx}"]`);
+    if(leavingDot){
+      leavingDot.classList.remove('dot--at-runner'); // fades back in
+      setTimeout(()=>{
+        leavingDot.classList.remove('exploded--instant');
+        leavingDot.classList.add('exploded');
+      }, 200);
+    }
+  }
+
+  // 1. Snap runner to its 'from' position without a transition.
+  rw.style.transition = 'none';
+  rw.style.transform  = `translateX(${fromShift}px)`;
+  void rw.getBoundingClientRect(); // commit — this is now the CSS "from" value
+
+  // 2. Enable transition and set the target — browser animates between the two.
+  rw.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.2,1)';
+  rw.style.transform  = `translateX(${toShift}px)`;
+
+  rw.addEventListener('transitionend', ()=>{
+    runnerStep = to;
+    // Hide the dot the runner just arrived on
+    const arrivedDotIdx = to - 1;
+    if(arrivedDotIdx >= 0 && arrivedDotIdx <= 3){
+      const arrivedDot = document.querySelector(`.q-prog-dot[data-dot="${arrivedDotIdx}"]`);
+      if(arrivedDot){ arrivedDot.classList.add('dot--at-runner'); }
+    }
+  }, {once:true});
+}
+
+function qPageShell(n,contentLeft,contentRight,canProceed,nextStep,hideNext){
+  const pageClass='q-page'+(hideNext?' q-page--result':'');
+  return `<div class="${pageClass}">
+  <div class="q-topbar">
+    <div class="q-counter-box">${n}/5</div>
+    ${hideNext
+      ? `<button class="q-next-box q-restart-btn" onclick="restart()">
+          <img class="q-restart-default" src="nya pikto/new piktogram_Pil restart default.svg" alt="Gör om">
+          <img class="q-restart-hover"   src="nya pikto/new piktogram_Pil restart hover.svg"   alt="">
+        </button>`
+      : `<button class="q-next-box${canProceed?' activated':''}" ${canProceed?`onclick="go(${nextStep})"`:'disabled'}>
+          <img class="q-arrow-default" src="nya pikto/new piktogram_Pil nästa fråga.svg" alt="">
+          <img class="q-arrow-active"  src="nya pikto/new piktogram_Pil nästa fråga aktiverat.svg" alt="Nästa">
+        </button>`
+    }
+    <div class="q-corner-tr"></div>
+  </div>
+  <div class="q-content">
+    <div class="q-col-left">${contentLeft}</div>
+    <div class="q-vsep"></div>
+    <div class="q-col-right">${contentRight}</div>
+  </div>
+  <div class="q-bottom-frame">
+    <div class="q-corner-bl"></div>
+    <div class="q-bottom-tcap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="90" height="45" viewBox="0 0 90 45" fill="none">
+        <line x1="45.5" y1="0" x2="45.5" y2="45" stroke="#111" stroke-width="1" shape-rendering="crispEdges"/>
+        <line x1="0" y1="44.5" x2="90" y2="44.5" stroke="#111" stroke-width="1" shape-rendering="crispEdges"/>
+      </svg>
+    </div>
+    <div class="q-corner-br"></div>
+  </div>
+  <div class="q-progress">
+    ${qProgBarHtml()}
+  </div>
+</div>`;
+}
+
+function step0(){
+  const q=S.search.trim().toLowerCase();
+  const list=q?KOMMUNER.filter(k=>k.n.toLowerCase().startsWith(q)):[];
+  const showList=q.length>0;
+  const can=!!S.kommun;
+  return `<div class="q-page">
+  <div class="q-topbar">
+    <div class="q-counter-box">1/5</div>
+    <button class="q-next-box${can?' activated':''}" ${can?'onclick="go(1)"':'disabled'}>
+      <img class="q-arrow-default" src="nya pikto/new piktogram_Pil nästa fråga.svg" alt="">
+      <img class="q-arrow-active"  src="nya pikto/new piktogram_Pil nästa fråga aktiverat.svg" alt="Nästa">
+    </button>
+    <div class="q-corner-tr"></div>
+  </div>
+  <div class="q-content">
+    <div class="q-col-left">
+      <h2 class="q-h2">VILKEN KOMMUN<br>BOR DU I?</h2>
+      <div class="q-search-wrap">
+        <input id="ks" class="q-search-inp" type="text" placeholder="Sök kommun..."
+          value="${esc(S.search)}" oninput="handleSearch(this.value)" autocomplete="off" spellcheck="false">
+        ${showList?`<div class="q-list">
+          ${list.length===0?'<div class="q-no-result">Inga kommuner hittades</div>':''}
+          ${list.map(k=>`<div class="q-list-item${S.kommun===k.n?' sel':''}" onclick="pickKommun('${esc(k.n)}')">
+            <span>${k.n}</span>
+          </div>`).join('')}
+        </div>`:''}
+      </div>
+    </div>
+    <div class="q-vsep"></div>
+    <div class="q-col-right">
+      <img class="q-shield-img" src="nya pikto/new piktogram_1. Kommunsköld.svg" alt="">
+    </div>
+  </div>
+  <div class="q-bottom-frame">
+    <div class="q-corner-bl"></div>
+    <div class="q-bottom-tcap">
+      <svg xmlns="http://www.w3.org/2000/svg" width="90" height="45" viewBox="0 0 90 45" fill="none">
+        <line x1="45.5" y1="0" x2="45.5" y2="45" stroke="#111" stroke-width="1" shape-rendering="crispEdges"/>
+        <line x1="0" y1="44.5" x2="90" y2="44.5" stroke="#111" stroke-width="1" shape-rendering="crispEdges"/>
+      </svg>
+    </div>
+    <div class="q-corner-br"></div>
+  </div>
+  <div class="q-progress">
+    ${qProgBarHtml()}
+  </div>
+</div>`;
+}
+
+function step1(){
+  let left=`<h2 class="q-h2">VAD BOR DU I?</h2>
+    <div id="q-boende-label-wrap" class="q-h2-hover q-boende-label-wrap is-visible" aria-live="polite">
+      <span class="q-boende-label q-boende-label--lagenhet${S.boende==='lagenhet'?' is-visible':''}">Lägenhet / Flerbostadshus</span>
+      <span class="q-boende-label q-boende-label--hus${S.boende==='hus'?' is-visible':''}">Villa / Radhus</span>
+    </div>`;
+
+  if(S.boende){
+    left+=`<div class="q-boende-byggår">
+      <div class="q-sub-label q-sub-label--helvetica">När byggdes fastigheten?</div>
+      <div class="q-options q-opts-grid q-opts-grid--left">
+        ${qSopt('fore1960','Före 1960','byggår')}
+        ${qSopt('19602002','1960 – 2002','byggår')}
+        ${qSopt('efter2002','Efter 2002','byggår')}
+        ${qSopt('vetej','Vet ej','byggår')}
+      </div>
+    </div>`;
+  }
+
+  const right=`<div class="q-col-right-inner">
+    <div class="q-boende-row">
+      ${qBoendeOpt('lagenhet','Lägenhet / Flerbostadshus','new piktogram_Höghus- Default.svg','new piktogram_Höghus- Hover.svg')}
+      ${qBoendeOpt('hus','Villa / Radhus','new piktogram_Hus- Default.svg','new piktogram_Hus- Hover.svg')}
+    </div>
+  </div>`;
+  return qPageShell(2,left,right,!!S.boende&&!!S.byggår,2);
+}
+
+function setHälsaHoverLabel(val){
+  const wrap=document.getElementById('q-hälsa-label-wrap');
+  if(!wrap) return;
+  const show=val||(S.hälsa||'');
+  wrap.querySelectorAll('.q-sticky-label').forEach(s=>{
+    s.classList.toggle('is-visible', s.dataset.val===show);
+  });
+}
+
+function qHälsaOpt(val, label, defaultSvg, hoverSvg) {
+  const sel = S.hälsa === val;
+  return `<button class="q-hälsa-opt${sel ? ' selected' : ''}"
+    onmouseenter="setHälsaHoverLabel('${val}')"
+    onmouseleave="setHälsaHoverLabel('')"
+    onclick="S['hälsa']='${val}';render()">
+    <div class="q-hälsa-svg-wrap">
+      <img class="q-hälsa-svg-default" src="nya pikto/${defaultSvg}" alt="">
+      <img class="q-hälsa-svg-hover" src="nya pikto/${hoverSvg}" alt="">
+    </div>
+  </button>`;
+}
+
+function setKunskapHoverLabel(val){
+  const wrap=document.getElementById('q-kunskap-label-wrap');
+  if(!wrap) return;
+  const show=val||(S.kunskap||'');
+  wrap.querySelectorAll('.q-sticky-label').forEach(s=>{
+    s.classList.toggle('is-visible', s.dataset.val===show);
+  });
+}
+
+function qKunskapOpt(val, label, defaultSvg, hoverSvg) {
+  const sel = S.kunskap === val;
+  return `<button class="q-kunskap-opt${sel ? ' selected' : ''}"
+    onmouseenter="setKunskapHoverLabel('${val}')"
+    onmouseleave="setKunskapHoverLabel('')"
+    onclick="S['kunskap']='${val}';render()">
+    <div class="q-kunskap-svg-wrap">
+      <img class="q-kunskap-svg-default" src="nya pikto/${defaultSvg}" alt="">
+      <img class="q-kunskap-svg-hover" src="nya pikto/${hoverSvg}" alt="">
+    </div>
+  </button>`;
+}
+
+function step2(){
+  const left=`<h2 class="q-h2">HUR ÄR DIN<br>RÖRELSEFÖRMÅGA?</h2>
+    <div id="q-hälsa-label-wrap" class="q-h2-hover q-sticky-label-wrap is-visible" aria-live="polite">
+      <span class="q-sticky-label${S.hälsa==='ingen'?' is-visible':''}" data-val="ingen">Ingen begränsning</span>
+      <span class="q-sticky-label${S.hälsa==='lätt'?' is-visible':''}" data-val="lätt">Mindre begränsning</span>
+      <span class="q-sticky-label${S.hälsa==='tydlig'?' is-visible':''}" data-val="tydlig">Tydlig begränsning</span>
+      <span class="q-sticky-label${S.hälsa==='stor'?' is-visible':''}" data-val="stor">Stor begränsning</span>
+    </div>`;
+  const right=`<div class="q-col-right-inner">
+    <div class="q-hälsa-grid">
+      ${qHälsaOpt('ingen','Ingen begränsning','new piktogram_3. Ingen begränsning- Default.svg','new piktogram_3. Ingen begränsning- hover.svg')}
+      ${qHälsaOpt('lätt','Mindre begränsning','new piktogram_3. Mindre begränsning- Default.svg','new piktogram_3. Mindre begränsning- hover.svg')}
+      ${qHälsaOpt('tydlig','Tydlig begränsning','new piktogram_3. Tydlig begräsning- Default.svg','new piktogram_3. Tydlig begräsning- hover.svg')}
+      ${qHälsaOpt('stor','Stor begränsning','new piktogram_3. Stor begräsning- Default.svg','new piktogram_3. Stor begräsning- hover.svg')}
+    </div>
+  </div>`;
+  return qPageShell(3,left,right,!!S.hälsa,3);
+}
+
+function step3(){
+  const left=`<div class="q-age-left">
+    <h2 class="q-h2">HUR GAMMAL<br>ÄR DU?</h2>
+    <div class="q-age-controls">
+      <div class="q-age-num" id="ad">${S.ålder} <span>år</span></div>
+      <input type="range" class="q-slider-track" min="0" max="100" value="${S.ålder}" id="asl"
+        oninput="S.ålder=+this.value;S.ageTouched=true;syncAgeUI()">
+      <div class="q-slider-labels"><span>0</span><span>25</span><span>50</span><span>75</span><span>100</span></div>
+    </div>
+  </div>`;
+  const right=`<div id="ageWrap" class="q-age-illu-wrap" data-kind="default" aria-hidden="true">
+    <div class="q-age-illu q-age-illu--default"><img src="nya pikto/new piktogram_4. Ålder- Default.svg" alt="" loading="eager"></div>
+    <div class="q-age-illu q-age-illu--bebis"><img src="nya pikto/new piktogram_4. Ålder- Bebis.svg" alt="" loading="eager"></div>
+    <div class="q-age-illu q-age-illu--barn"><img src="nya pikto/new piktogram_4. Ålder- Barn.svg" alt="" loading="eager"></div>
+    <div class="q-age-illu q-age-illu--vuxen"><img src="nya pikto/new piktogram_4. Ålder- Vuxen.svg" alt="" loading="eager"></div>
+    <div class="q-age-illu q-age-illu--gammal"><img src="nya pikto/new piktogram_4. Ålder- Gammal.svg" alt="" loading="eager"></div>
+  </div>`;
+  return qPageShell(4,left,right,true,4);
+}
+
+function step4(){
+  const left=`<h2 class="q-h2">VET DU VAR DITT<br>NÄRMASTE SKYDDSRUM<br>FINNS?</h2>
+    <div id="q-kunskap-label-wrap" class="q-h2-hover q-sticky-label-wrap is-visible" aria-live="polite">
+      <span class="q-sticky-label${S.kunskap==='ja'?' is-visible':''}" data-val="ja">Ja</span>
+      <span class="q-sticky-label${S.kunskap==='ungefär'?' is-visible':''}" data-val="ungefär">Ungefär</span>
+      <span class="q-sticky-label${S.kunskap==='nej'?' is-visible':''}" data-val="nej">Vet ej</span>
+    </div>`;
+  const right=`<div class="q-col-right-inner">
+    <div class="q-kunskap-row">
+      ${qKunskapOpt('ja','Ja','new piktogram_5. Vet ej- Default.svg','new piktogram_5. Vet ej- hover.svg')}
+      ${qKunskapOpt('ungefär','Ungefär','new piktogram_5. Ungefär- Default.svg','new piktogram_5. Ugnefär- hover.svg')}
+      ${qKunskapOpt('nej','Vet ej','new piktogram_5. Ja- Default.svg','new piktogram_5. Ja- hover.svg')}
+    </div>
+  </div>`;
+  return qPageShell(5,left,right,!!S.kunskap,5);
+}
+
+function stepResult(){
+  const {total,kommunScore,boendeScore,hälsaScore,åldersScore,kunskapScore}=calcScore();
+  const lv=getLevel(total);
+  const tips=getTips(lv.label);
+  const bars=[
+    {l:'Kommun',v:kommunScore},
+    {l:'Boende',v:boendeScore},
+    {l:'Hälsa',v:hälsaScore},
+    {l:'Ålder',v:åldersScore},
+    {l:'Kunskap',v:kunskapScore}
+  ];
+  const left=`<div class="q-result-inner">
+    <h2 class="q-h2">RESULTAT</h2>
+    <div class="q-result-score">${total}<span>/100</span></div>
+    <div class="q-result-level">${lv.label}</div>
+    <div class="q-result-desc">${lv.desc}</div>
+    <div class="q-result-section">
+      <div class="q-result-section-label">Faktoranalys</div>
+      ${bars.map(b=>`<div class="q-result-bar-row">
+        <div class="q-result-bar-name">${b.l}</div>
+        <div class="q-result-bar-track"><div class="q-result-bar-fill" style="width:${b.v}%"></div></div>
+        <div class="q-result-bar-val">${b.v}</div>
+      </div>`).join('')}
+    </div>
+  </div>`;
+  const right=`<div class="q-result-right">
+    <img class="q-result-svg" src="nya pikto/${lv.svg}" alt="${lv.label}">
+    <div class="q-result-rekom">
+      <div class="q-result-rekom-label">Rekommendationer</div>
+      <ul class="q-result-tips-list">${tips.map(t=>`<li>${t}</li>`).join('')}</ul>
+    </div>
+  </div>`;
+  return qPageShell(5,left,right,false,5,true);
+}
+
+function esc(s){return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");}
+
+function ageKindFromValue(v){
+  if(v>=0 && v<=6) return 'bebis';
+  if(v>=7 && v<=18) return 'barn';
+  if(v>=19 && v<=65) return 'vuxen';
+  return 'gammal';
+}
+
+function ageSvgForKind(kind){
+  switch(kind){
+    case 'bebis': return 'new piktogram_4. Ålder- Bebis.svg';
+    case 'barn': return 'new piktogram_4. Ålder- Barn.svg';
+    case 'vuxen': return 'new piktogram_4. Ålder- Vuxen.svg';
+    case 'gammal': return 'new piktogram_4. Ålder- Gammal.svg';
+    default: return 'new piktogram_4. Ålder- Default.svg';
+  }
+}
+
+function preloadAgeSvgs(){
+  const base = 'nya pikto/';
+  const files = [
+    'new piktogram_4. Ålder- Default.svg',
+    'new piktogram_4. Ålder- Bebis.svg',
+    'new piktogram_4. Ålder- Barn.svg',
+    'new piktogram_4. Ålder- Vuxen.svg',
+    'new piktogram_4. Ålder- Gammal.svg'
+  ];
+  for(const f of files){
+    const img = new Image();
+    img.src = base + f;
+  }
+}
+
+function syncAgeUI(){
+  const num=document.getElementById('ad');
+  if(num) num.innerHTML = S.ålder + ' <span>år</span>';
+
+  const kind = S.ageTouched ? ageKindFromValue(S.ålder) : 'default';
+  if(kind === S.ageKind) return;
+
+  const wrap=document.getElementById('ageWrap');
+  if(!wrap) return;
+
+  const nextLayer=wrap.querySelector('.q-age-illu--'+kind);
+  const nextImg=nextLayer?nextLayer.querySelector('img'):null;
+  const doSwitch=()=>{ S.ageKind=kind; wrap.dataset.kind=kind; };
+  if(nextImg && nextImg.decode){
+    nextImg.decode().then(doSwitch).catch(doSwitch);
+  }else{
+    doSwitch();
+  }
+}
+
+function handleSearch(val){
+  S.search=val;
+  S.kommun=null;
+  render();
+  // restore cursor at end
+  requestAnimationFrame(()=>{
+    const el=document.getElementById('ks');
+    if(el){el.focus();const l=el.value.length;el.setSelectionRange(l,l);}
+  });
+}
+
+function pickKommun(name){
+  S.kommun=name;
+  S.search=name;
+  // Targeted DOM update so the CSS opacity transition can play
+  const list=document.querySelector('.q-list');
+  if(list) list.remove();
+  const input=document.getElementById('ks');
+  if(input) input.value=name;
+  const btn=document.querySelector('.q-next-box');
+  if(btn){
+    btn.disabled=false;
+    btn.onclick=function(){go(1);};
+    btn.classList.add('activated');
+  }
+}
+
+function go(n){
+  const from=S.step;
+  prevStep=from;
+  S.step=n;
+  history.pushState({step:n, runnerStep:runnerStep, prevStep:from}, '');
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+  requestAnimationFrame(()=>animateProgress(from,n));
+}
+
+function goToStatisticsHome(){
+  window.location.href = '/';
+}
+
+function restart(){
+  prevStep=-1;
+  runnerStep=-1;
+  S={step:-1,search:'',kommun:null,boende:null,byggår:null,hälsa:null,ålder:35,ageTouched:false,ageKind:'default',kunskap:null};
+  history.pushState({step:-1, runnerStep:-1, prevStep:-1}, '');
+  render();window.scrollTo({top:0,behavior:'smooth'});
+}
+
+window.addEventListener('popstate', function(e){
+  const st = e.state;
+  if(!st) return;
+  // Restore step and runner state, then re-render without animation
+  prevStep   = st.prevStep   ?? -1;
+  runnerStep = st.runnerStep ?? -1;
+  S.step     = st.step       ?? -1;
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+function render(){
+  const views = {
+    [-1]: introView,
+     0: step0,
+     1: step1,
+     2: step2,
+     3: step3,
+     4: step4,
+     5: stepResult
+  };
+  document.getElementById('root').innerHTML = (views[S.step] || introView)();
+  const headerEl = document.querySelector('.header');
+  if(headerEl) headerEl.style.display = S.step <= -1 ? 'none' : 'flex';
+  if(S.step === 3) requestAnimationFrame(syncAgeUI);
+  // Capture the runner's un-transformed centre-X (transform is 'none' at this point
+  // because it was just created by innerHTML).  Then restore to its resting position.
+  const rw = document.getElementById('qRunnerWrap');
+  if(rw){
+    const r = rw.getBoundingClientRect();
+    runnerOrigCX = r.left + r.width / 2;   // genuine origin, no transform applied yet
+    if(runnerStep >= 0){
+      rw.style.transition = 'none';
+      rw.style.transform  = `translateX(${computeShift(runnerStep)}px)`;
+      void rw.getBoundingClientRect();
+    }
+  }
+}
+
+// Seed history so the first back-press returns to intro instead of leaving the page
+history.replaceState({step:-1, runnerStep:-1, prevStep:-1}, '');
+render();
+preloadAgeSvgs();
+</script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap");
+
+:root {
+  --quiz-font-helvetica: "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --quiz-font-mono: "Space Mono", monospace;
+}
+
+html,
+body {
+  font-family: var(--quiz-font-helvetica);
+}
