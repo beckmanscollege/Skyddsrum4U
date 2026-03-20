@@ -46,7 +46,7 @@ const REGION_CONFIG: Record<RegionKey, { label: string; csvUrl: string }> = {
 type SortKey = 'kommun' | 'antalSkyddsrum' | 'antalPlatser' | 'andel';
 
 const BIG_CITY_KOMMUNER = new Set(['Stockholm', 'Göteborg', 'Malmö']);
-const FONT_HELVETICA = '"Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, "Inter", Arial, sans-serif';
+const FONT_HELVETICA = '"Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif';
 const FONT_MONO = "'Space Mono', monospace";
 const ACCENT_BLUE = '#1453c2';
 const ACCENT_ORANGE = '#ff7800';
