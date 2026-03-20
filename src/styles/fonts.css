@@ -8,4 +8,7 @@
 html,
 body {
   font-family: var(--quiz-font-helvetica);
+  /* Match Chrome/Blink rendering to Firefox/Zen (smoother, less bold) */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
