@@ -1838,7 +1838,7 @@ export function StatisticsSection() {
                         lineHeight: 1,
                       }}
                     >
-                      <span className="inline-flex items-center h-full leading-none">{REGION_BUTTON_LABELS[key]}</span>
+                      <span className="inline-flex items-center h-full leading-none" style={{ fontFamily: FONT_HELVETICA, fontWeight: 700 }}>{REGION_BUTTON_LABELS[key]}</span>
                       <span className="inline-flex items-center justify-center h-full leading-none">
                         <svg viewBox="-1 -1 12 10.66" width="12" height="11" style={{ display: 'block' }} xmlns="http://www.w3.org/2000/svg">
                           <polygon points="5,0 10,8.66 0,8.66" fill="none" stroke={isSelected ? ACCENT_BLUE : '#111111'} strokeWidth="1.3" strokeLinejoin="miter" />
