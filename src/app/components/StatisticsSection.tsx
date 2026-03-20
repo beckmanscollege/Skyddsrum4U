@@ -75,7 +75,7 @@ const STARTPAGE_ASSET_HINNER_DU_CARD = new URL('../../../SVG ASSETS/piktorgramam
 const STARTPAGE_ASSET_SARBARHET_RIGHT = new URL('../../../SVG ASSETS/piktorgramam-3_Sarbarhet-1.svg', import.meta.url).href;
 const STARTPAGE_ASSET_TRANGSEL_RIGHT = new URL('../../../SVG ASSETS/piktorgramam-3_Startsida-Trangsel.svg', import.meta.url).href;
 const STARTPAGE_ASSET_AVVISNING_RIGHT = new URL('../../../SVG ASSETS/piktorgramam-3_Startsida-Avvisning.svg', import.meta.url).href;
-const HOME_HINNER_DU_QUIZ_URL = '/skyddsrum-quiz/skyddsrum-quiz.html';
+const HOME_HINNER_DU_QUIZ_URL = `${import.meta.env.BASE_URL}skyddsrum-quiz/skyddsrum-quiz.html`;
 
 function CornerFrame({
   children,

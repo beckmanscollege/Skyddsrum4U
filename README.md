@@ -38,6 +38,15 @@ npm run build
 
 The built site will be in the `dist/` folder.
 
+## Deploy to GitHub Pages
+
+1. **Enable GitHub Pages** (one-time):
+   - Go to [github.com/beckmanscollege/Skyddsrum4U](https://github.com/beckmanscollege/Skyddsrum4U) → **Settings** → **Pages**
+   - Under "Build and deployment", set **Source** to **GitHub Actions**
+
+2. **Push to deploy**: Every push to `main` automatically builds and deploys. The site will be at:
+   - **https://beckmanscollege.github.io/Skyddsrum4U/**
+
 ## Tech stack
 
 - React 18
