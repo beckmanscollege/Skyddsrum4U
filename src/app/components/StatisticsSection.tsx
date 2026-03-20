@@ -1977,9 +1977,7 @@ export function StatisticsSection() {
                             color: isSelected ? ACCENT_BLUE : '#000000',
                             transition: 'color 0.3s ease',
                             position: 'relative',
-                            padding: '3px',
-                            fontFamily: FONT_HELVETICA,
-                            fontWeight: 400
+                            padding: '3px'
                           }}
                         >
                           {item.kommun}
