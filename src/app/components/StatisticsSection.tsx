@@ -503,7 +503,7 @@ function HomeScreen({
             style={{
               color: '#000000',
               fontSize: 'clamp(40px, 5.4vw, 77px)',
-              fontWeight: 500,
+              fontWeight: 600,
               letterSpacing: '-0.02em',
               lineHeight: 1.05,
               width: heroColumnWidth ? `${heroColumnWidth}px` : undefined,
