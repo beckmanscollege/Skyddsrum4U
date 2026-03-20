@@ -1834,7 +1834,7 @@ export function StatisticsSection() {
                         color: isSelected ? ACCENT_BLUE : '#111111',
                         backgroundColor: isSelected ? ACCENT_ORANGE : '#ffffff',
                         fontFamily: FONT_HELVETICA,
-                        fontWeight: 500,
+                        fontWeight: 700,
                         lineHeight: 1,
                       }}
                     >
