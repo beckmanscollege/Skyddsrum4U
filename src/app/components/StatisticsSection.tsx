@@ -46,7 +46,7 @@ const REGION_CONFIG: Record<RegionKey, { label: string; csvUrl: string }> = {
 type SortKey = 'kommun' | 'antalSkyddsrum' | 'antalPlatser' | 'andel';
 
 const BIG_CITY_KOMMUNER = new Set(['Stockholm', 'Göteborg', 'Malmö']);
-const FONT_HELVETICA = '"Helvetica Neue CE", "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif';
+const FONT_HELVETICA = '"Helvetica Neue CE", "Inter", "Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif';
 const FONT_MONO = "'Space Mono', monospace";
 const ACCENT_BLUE = '#1453c2';
 const ACCENT_ORANGE = '#ff7800';
@@ -1533,7 +1533,7 @@ export function StatisticsSection() {
       </div>
       <div className="mx-auto w-full max-w-[1680px] px-6 py-10 md:px-16 md:py-14">
       {/* Intro text */}
-      <div className="mt-10 mb-16 max-w-[980px] text-[18px] md:text-[19px] leading-[1.35] uppercase" style={{ color: ACCENT_BLUE, fontFamily: FONT_HELVETICA, fontWeight: 500 }}>
+      <div className="mt-10 mb-16 max-w-[980px] text-[18px] md:text-[19px] leading-[1.35] uppercase" style={{ color: ACCENT_BLUE, fontFamily: FONT_HELVETICA, fontWeight: 700 }}>
         {INTRO_DESCRIPTION_TEXT}
       </div>
 
