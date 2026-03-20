@@ -46,7 +46,7 @@ const REGION_CONFIG: Record<RegionKey, { label: string; csvUrl: string }> = {
 type SortKey = 'kommun' | 'antalSkyddsrum' | 'antalPlatser' | 'andel';
 
 const BIG_CITY_KOMMUNER = new Set(['Stockholm', 'Göteborg', 'Malmö']);
-const FONT_HELVETICA = '"Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, Arial, sans-serif';
+const FONT_HELVETICA = '"Helvetica Neue LT Pro", "Helvetica Neue", Helvetica, "Inter", Arial, sans-serif';
 const FONT_MONO = "'Space Mono', monospace";
 const ACCENT_BLUE = '#1453c2';
 const ACCENT_ORANGE = '#ff7800';
@@ -757,7 +757,7 @@ function IntroScreen({ onStart, onHome }: { onStart: () => void; onHome: () => v
         onClick={onHome}
       >
         <img
-          src="/skyddsrum-data/piktorgrawwadmam.svg"
+          src={`${import.meta.env.BASE_URL}skyddsrum-data/piktorgrawwadmam.svg`}
           alt="Hem"
           style={{ width: '72px', height: '72px', transition: 'transform 0.22s ease', transformOrigin: 'center' }}
           className="group-hover:scale-110"
@@ -842,7 +842,7 @@ function IntroScreen({ onStart, onHome }: { onStart: () => void; onHome: () => v
 
       {/* Enter arrow (copied style + slide-in animation from quiz intro) */}
       <img
-        src="/skyddsrum-data/intro-arrow.svg"
+        src={`${import.meta.env.BASE_URL}skyddsrum-data/intro-arrow.svg`}
         alt="Visa statistik"
         onClick={onStart}
         className="absolute z-20 h-auto cursor-pointer transition-opacity duration-200 hover:opacity-75"
@@ -956,6 +956,13 @@ export function StatisticsSection() {
       setRegionError(null);
     }
 
+    if (typeof Papa === 'undefined') {
+      if (!silent) {
+        setRegionError('CSV-biblioteket laddas inte. Försök ladda om sidan.');
+        setIsLoadingRegion(false);
+      }
+      return;
+    }
     Papa.parse(cfg.csvUrl, {
       download: true,
       skipEmptyLines: true,
@@ -1497,7 +1504,7 @@ export function StatisticsSection() {
         onClick={handleGoHome}
       >
         <img
-          src="/skyddsrum-data/piktorgrawwadmam.svg"
+          src={`${import.meta.env.BASE_URL}skyddsrum-data/piktorgrawwadmam.svg`}
           alt="Hem"
           style={{ width: '72px', height: '72px', transition: 'transform 0.22s ease', transformOrigin: 'center' }}
           className="group-hover:scale-110"

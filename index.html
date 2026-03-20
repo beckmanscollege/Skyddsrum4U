@@ -5,7 +5,15 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Skyddsrum 4 U</title>
-      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+      <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+      <script>
+        (function(){
+          var base = location.pathname.replace(/\/[^/]*$/, '') || '';
+          if (base && !base.endsWith('/')) base += '/';
+          var cursorPath = (base || '/') + 'skyddsrum-data/coursor.svg';
+          document.documentElement.style.setProperty('--app-cursor', 'url("' + cursorPath + '") 1 1');
+        })();
+      </script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
     </head>
 

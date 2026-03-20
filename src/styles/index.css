@@ -2,9 +2,7 @@
 @import './tailwind.css';
 @import './theme.css';
 
-:root {
-  --app-cursor: url("/skyddsrum-data/coursor.svg") 1 1;
-}
+/* --app-cursor is set by inline script in index.html for correct base path */
 
 body {
   cursor: var(--app-cursor), auto;
