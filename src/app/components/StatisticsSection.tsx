@@ -1194,14 +1194,14 @@ export function StatisticsSection() {
   }, [sverigeData, sortKey, sortAsc]);
 
   const secondaryFilteredData = useMemo(() => {
-    // Hide big outliers by default to make region plots more comparable.
-    // If user explicitly searched/selected one of them, include it.
-    const base = secondaryBaseData.filter(d => !BIG_CITY_KOMMUNER.has(d.kommun));
-    let result = [...base];
-    if (selectedKommunSecondary && BIG_CITY_KOMMUNER.has(selectedKommunSecondary)) {
-      const forced = secondaryBaseData.find(d => d.kommun === selectedKommunSecondary);
-      if (forced) result.push(forced);
-    }
+    // Always include the main city in its own region (Stockholm in Stockholm, Göteborg in Göteborg, Malmö in Malmö).
+    // Filter out other big cities to keep region plots comparable.
+    const mainCity = secondaryRegion === 'stockholm' ? 'Stockholm' : secondaryRegion === 'goteborg' ? 'Göteborg' : 'Malmö';
+    const base = secondaryBaseData.filter(d => {
+      if (BIG_CITY_KOMMUNER.has(d.kommun)) return d.kommun === mainCity;
+      return true;
+    });
+    const result = [...base];
 
     result.sort((a, b) => {
       const aVal = a[sortKey];
@@ -1212,7 +1212,7 @@ export function StatisticsSection() {
       return sortAsc ? (aVal as number) - (bVal as number) : (bVal as number) - (aVal as number);
     });
     return result;
-  }, [secondaryBaseData, selectedKommunSecondary, sortKey, sortAsc]);
+  }, [secondaryBaseData, secondaryRegion, sortKey, sortAsc]);
 
   // Retrigger history line animation when chart enters viewport.
   useEffect(() => {
